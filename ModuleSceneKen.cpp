@@ -9,6 +9,7 @@
 #include "ModuleFadeToBlack.h"
 #include "SDL/include/SDL.h"
 #include <iostream>
+#include <math.h>
 
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
@@ -38,9 +39,9 @@ ModuleSceneKen::ModuleSceneKen(bool start_enabled) : Module(start_enabled)
 
 
 	// flag animation
-	flag.frames.push_back({848, 208, 40, 40});
-	flag.frames.push_back({848, 256, 40, 40});
-	flag.frames.push_back({848, 304, 40, 40});
+	flag.frames.push_back({ 848, 208, 40, 40 });
+	flag.frames.push_back({ 848, 256, 40, 40 });
+	flag.frames.push_back({ 848, 304, 40, 40 });
 	flag.speed = 0.08f;
 
 	// TODO 4: Setup Girl Animation from coordinates from ken_stage.png
@@ -54,12 +55,12 @@ ModuleSceneKen::~ModuleSceneKen()
 bool ModuleSceneKen::Start()
 {
 	LOG("Loading ken scene");
-	
+
 	graphics = App->textures->Load("ken_stage.png");
 
 	// TODO 7: Enable the player module
 	// TODO 0: trigger background music
-	
+
 	return true;
 }
 
@@ -70,7 +71,7 @@ bool ModuleSceneKen::CleanUp()
 
 	App->textures->Unload(graphics);
 	App->player->Disable();
-	
+
 	return true;
 }
 
@@ -88,16 +89,30 @@ update_status ModuleSceneKen::Update()
 	// TODO 3: Draw the ship. Be sure to tweak the speed.
 	App->renderer->Blit(graphics, 0, 0, &ship, 1.0f); // sea and sky
 
-	timer = SDL_GetTicks()/100;
-	if (timer > lastTime + 10) {
-		ship.y -= 5* sin(timer);
+	timer = SDL_GetTicks() / 1000;
+
+	if (ship.y >= 29)
+		ship_up = false;
+
+	if(ship.y <= 23)
+		ship_up = true;
+	
+
+
+	if (timer > lastTime) {
+		if (ship_up)
+			ship.y = ship.y + 3;
+
+		else
+			ship.y = ship.y - 3;
 		lastTime = timer;
 	}
+
 	
-	std::cout << timer << std::endl;
+	std::cout << ship.y << std::endl;
 
 	// TODO 6: Draw the girl. Make sure it follows the ship movement!
-	
+
 	App->renderer->Blit(graphics, 0, 170, &ground);
 
 	// TODO 10: Build an entire new scene "honda", you can find its

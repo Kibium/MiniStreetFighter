@@ -22,6 +22,8 @@ public:
 public:
 	
 	SDL_Texture* graphics = nullptr;
+	bool ship_up;
+
 	SDL_Rect ground;
 	SDL_Rect background;
 	SDL_Rect ship;
