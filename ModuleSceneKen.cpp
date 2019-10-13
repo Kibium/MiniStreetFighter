@@ -8,8 +8,6 @@
 #include "ModuleAudio.h"
 #include "ModuleFadeToBlack.h"
 #include "SDL/include/SDL.h"
-#include <iostream>
-#include <math.h>
 
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
@@ -37,15 +35,22 @@ ModuleSceneKen::ModuleSceneKen(bool start_enabled) : Module(start_enabled)
 	ship.w = 526;
 	ship.h = 204;
 
-
 	// flag animation
-	flag.frames.push_back({ 848, 208, 40, 40 });
-	flag.frames.push_back({ 848, 256, 40, 40 });
-	flag.frames.push_back({ 848, 304, 40, 40 });
+	flag.frames.push_back({848, 208, 40, 40});
+	flag.frames.push_back({848, 256, 40, 40});
+	flag.frames.push_back({848, 304, 40, 40});
 	flag.speed = 0.08f;
-	//Helper commit
 
 	// TODO 4: Setup Girl Animation from coordinates from ken_stage.png
+
+	girlpos.x = 191;
+	girlpos.y = 105;
+
+	girl.frames.push_back({ 624, 16, 32, 56 });
+	girl.frames.push_back({ 624, 80, 32, 56 });
+	girl.frames.push_back({ 624, 144, 32, 56 });
+	girl.speed = 0.04;
+
 
 }
 
@@ -56,12 +61,12 @@ ModuleSceneKen::~ModuleSceneKen()
 bool ModuleSceneKen::Start()
 {
 	LOG("Loading ken scene");
-
+	
 	graphics = App->textures->Load("ken_stage.png");
 
 	// TODO 7: Enable the player module
 	// TODO 0: trigger background music
-
+	
 	return true;
 }
 
@@ -72,7 +77,7 @@ bool ModuleSceneKen::CleanUp()
 
 	App->textures->Unload(graphics);
 	App->player->Disable();
-
+	
 	return true;
 }
 
@@ -86,34 +91,38 @@ update_status ModuleSceneKen::Update()
 	App->renderer->Blit(graphics, 0, 0, &background, 1.0f); // sea and sky
 	App->renderer->Blit(graphics, 560, 8, &(flag.GetCurrentFrame()), 1.0f); // flag animation
 
-
 	// TODO 3: Draw the ship. Be sure to tweak the speed.
 	App->renderer->Blit(graphics, 0, 0, &ship, 1.0f); // sea and sky
+	App->renderer->Blit(graphics, girlpos.x, girlpos.y, &(girl.GetCurrentFrame()), 1.0f); // GIRL animation
 
 	timer = SDL_GetTicks() / 1000;
 
 	if (ship.y >= 29)
 		ship_up = false;
 
-	if(ship.y <= 23)
+	if (ship.y <= 23)
 		ship_up = true;
-	
+
 
 
 	if (timer > lastTime) {
-		if (ship_up)
-			ship.y = ship.y + 3;
+		if (ship_up) {
+			ship.y += 3;
+			girlpos.y -= 3;
 
-		else
-			ship.y = ship.y - 3;
+		}
+
+		else {
+			ship.y -= 3;
+			girlpos.y += 3;
+		}
 		lastTime = timer;
 	}
 
-	
-	std::cout << ship.y << std::endl;
+
 
 	// TODO 6: Draw the girl. Make sure it follows the ship movement!
-
+	
 	App->renderer->Blit(graphics, 0, 170, &ground);
 
 	// TODO 10: Build an entire new scene "honda", you can find its

@@ -39,7 +39,6 @@ enum update_status
 #define SCREEN_HEIGHT 224
 #define SCREEN_SIZE 2
 #define FULLSCREEN false
-#define RESIZABLE true
 #define VSYNC true
 #define TITLE "Super Awesome Game"
 

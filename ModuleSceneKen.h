@@ -16,8 +16,8 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
-
 	float timer, lastTime;
+
 
 public:
 	
@@ -27,7 +27,8 @@ public:
 	SDL_Rect ground;
 	SDL_Rect background;
 	SDL_Rect ship;
-	Animation flag;
+	SDL_Rect girlpos;
+	Animation flag, girl;
 };
 
 #endif // __MODULESCENEKEN_H__
