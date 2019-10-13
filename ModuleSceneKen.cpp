@@ -43,6 +43,7 @@ ModuleSceneKen::ModuleSceneKen(bool start_enabled) : Module(start_enabled)
 	flag.frames.push_back({ 848, 256, 40, 40 });
 	flag.frames.push_back({ 848, 304, 40, 40 });
 	flag.speed = 0.08f;
+	//Helper commit
 
 	// TODO 4: Setup Girl Animation from coordinates from ken_stage.png
 
