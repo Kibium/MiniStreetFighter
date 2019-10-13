@@ -22,8 +22,10 @@ public:
 
 	SDL_Texture* graphics = nullptr;
 	Animation idle;
-	Animation backward;
+	Animation backward, forward;
 	iPoint position;
+
+
 };
 
 #endif // __MODULEPLAYER_H__

@@ -119,6 +119,7 @@ update_status ModuleInput::PreUpdate()
 				mouse.x = event.motion.x / SCREEN_SIZE;
 				mouse.y = event.motion.y / SCREEN_SIZE;
 			break;
+
 		}
 	}
 
