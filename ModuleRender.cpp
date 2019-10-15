@@ -5,6 +5,8 @@
 #include "ModuleInput.h"
 #include "SDL/include/SDL.h"
 
+#include <iostream>
+
 ModuleRender::ModuleRender()
 {
 	camera.x = camera.y = 0;
@@ -63,6 +65,11 @@ update_status ModuleRender::Update()
 
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->renderer->camera.x -= speed;
+
+	if (App->renderer->camera.x > 0)
+		App->renderer->camera.x = 0;
+
+	//std::cout << App->renderer->camera.x << std::endl;
 
 	return UPDATE_CONTINUE;
 }

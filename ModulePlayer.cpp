@@ -90,6 +90,10 @@ update_status ModulePlayer::Update()
 	else
 		App->renderer->Blit(graphics, position.x, position.y, &(idle.GetCurrentFrame()), 1.f);
 
+	if (position.x <= 0)
+		position.x = 0;
+
+
 
 
 

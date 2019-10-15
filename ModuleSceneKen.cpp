@@ -8,49 +8,69 @@
 #include "ModuleAudio.h"
 #include "ModuleFadeToBlack.h"
 #include "SDL/include/SDL.h"
+#include <iostream>
 
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
 ModuleSceneKen::ModuleSceneKen(bool start_enabled) : Module(start_enabled)
 {
-	// ground
-	ground.x = 8;
-	ground.y = 391;
-	ground.w = 896;
-	ground.h = 72;
+	//Main scene
+	{
+		// ground
+		ground.x = 8;
+		ground.y = 391;
+		ground.w = 896;
+		ground.h = 72;
 
-	// TODO 2 : setup the foreground (red ship) with
-	// coordinates x,y,w,h from ken_stage.png
+		// TODO 2 : setup the foreground (red ship) with
+		// coordinates x,y,w,h from ken_stage.png
 
-	// Background / sky
-	background.x = 72;
-	background.y = 208;
-	background.w = 768;
-	background.h = 176;
+		// Background / sky
+		background.x = 72;
+		background.y = 208;
+		background.w = 768;
+		background.h = 176;
 
-	//Ship
+		//Ship
 
-	ship.x = 9;
-	ship.y = 23;
-	ship.w = 526;
-	ship.h = 204;
+		ship.x = 9;
+		ship.y = 23;
+		ship.w = 526;
+		ship.h = 204;
 
-	// flag animation
-	flag.frames.push_back({848, 208, 40, 40});
-	flag.frames.push_back({848, 256, 40, 40});
-	flag.frames.push_back({848, 304, 40, 40});
-	flag.speed = 0.08f;
+		// flag animation
+		flag.frames.push_back({ 848, 208, 40, 40 });
+		flag.frames.push_back({ 848, 256, 40, 40 });
+		flag.frames.push_back({ 848, 304, 40, 40 });
+		flag.speed = 0.08f;
 
-	// TODO 4: Setup Girl Animation from coordinates from ken_stage.png
+		// TODO 4: Setup Girl Animation from coordinates from ken_stage.png
 
-	girlpos.x = 191;
-	girlpos.y = 105;
+		girlpos.x = 191;
+		girlpos.y = 105;
 
-	girl.frames.push_back({ 624, 16, 32, 56 });
-	girl.frames.push_back({ 624, 80, 32, 56 });
-	girl.frames.push_back({ 624, 144, 32, 56 });
-	girl.speed = 0.04;
+		girl.frames.push_back({ 624, 16, 32, 56 });
+		girl.frames.push_back({ 624, 80, 32, 56 });
+		girl.frames.push_back({ 624, 144, 32, 56 });
+		girl.speed = 0.04;
+	}
+	
+	//Next Scene
+	/*App->scene_honda->background.x = 120;
+	App->scene_honda->background.y = 176;
+	App->scene_honda->background.w = 639;
+	App->scene_honda->background.h = 129;
 
+	App->scene_honda->ground*/
+	
+
+
+
+	//?????
+	//App->scene_honda->Disable();
+	//nextScene = App->scene_honda;
+	//if (App->scene_honda != nullptr);
+	//cout << App->scene_honda->IsEnabled() << endl;
 
 }
 
@@ -63,6 +83,7 @@ bool ModuleSceneKen::Start()
 	LOG("Loading ken scene");
 	
 	graphics = App->textures->Load("ken_stage.png");
+
 
 	// TODO 7: Enable the player module
 	App->player->Enable();
@@ -92,10 +113,9 @@ update_status ModuleSceneKen::Update()
 	// TODO 1: Tweak the movement speed of the sea&sky + flag to your taste
 	App->renderer->Blit(graphics, 0, 0, &background, 1.0f); // sea and sky
 	App->renderer->Blit(graphics, 560, 8, &(flag.GetCurrentFrame()), 1.0f); // flag animation
-
+	
 	// TODO 3: Draw the ship. Be sure to tweak the speed.
 	App->renderer->Blit(graphics, 0, 0, &ship, 1.0f); // sea and sky
-	App->renderer->Blit(graphics, girlpos.x, girlpos.y, &(girl.GetCurrentFrame()), 1.0f); // GIRL animation
 
 	timer = SDL_GetTicks() / 1000;
 
@@ -121,10 +141,15 @@ update_status ModuleSceneKen::Update()
 		lastTime = timer;
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+		App->scene_ken->Disable();
+		App->fade->FadeToBlack(App->scene_honda, nullptr, 3.0f);
+
+	}
 
 
 	// TODO 6: Draw the girl. Make sure it follows the ship movement!
-	
+	App->renderer->Blit(graphics, girlpos.x, girlpos.y, &(girl.GetCurrentFrame()), 1.0f);
 	App->renderer->Blit(graphics, 0, 170, &ground);
 
 	// TODO 10: Build an entire new scene "honda", you can find its

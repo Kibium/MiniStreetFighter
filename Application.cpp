@@ -6,6 +6,8 @@
 #include "ModuleAudio.h"
 #include "ModuleFadeToBlack.h"
 #include "ModuleSceneKen.h"
+#include "ModuleSceneHonda.h"
+
 #include "ModulePlayer.h"
 
 using namespace std;
@@ -22,6 +24,8 @@ Application::Application()
 
 	// Game Modules
 	modules.push_back(scene_ken = new ModuleSceneKen(false));
+	modules.push_back(scene_honda = new ModuleSceneHonda(false));
+
 	modules.push_back(player = new ModulePlayer(false));
 	modules.push_back(fade = new ModuleFadeToBlack());
 }
@@ -37,7 +41,7 @@ bool Application::Init()
 	bool ret = true;
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
-		ret = (*it)->Init(); // we init everything, even if not anabled
+		ret = (*it)->Init(); // we init everything, even if not enabled
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 	{
