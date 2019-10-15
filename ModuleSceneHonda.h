@@ -23,8 +23,10 @@ public:
 	SDL_Texture* graphics = nullptr;
 
 	SDL_Rect ground;
-	SDL_Rect background, bath_water, bath;
+	SDL_Rect background;
+	SDL_Rect bath;
 	
+	Animation water;
 	
 };
 

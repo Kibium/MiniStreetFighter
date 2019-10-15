@@ -22,14 +22,14 @@ ModuleSceneHonda::ModuleSceneHonda(bool start_enabled) : Module(start_enabled)
 	background.h = 131;
 
 	bath.x = 312;
-	bath.y = 336;
+	bath.y = 316;
 	bath.w = 336;
-	bath.h = 32;
+	bath.h = 52;
 
-	bath_water.x = 312;
-	bath_water.y = 312;
-	bath_water.w = 336;
-	bath_water.y = 20;
+	water.frames.push_back({ 8, 448, 284, 8 });
+	water.frames.push_back({ 296, 448, 284, 13 });
+	water.frames.push_back({ 588, 448, 284, 18 });
+	water.speed = 0.04f;
 
 	ground.x = 8;
 	ground.y = 376;
@@ -48,10 +48,15 @@ bool ModuleSceneHonda::Start()
 
 	graphics = App->textures->Load("honda_stage.png");
 
-	// TODO 7: Enable the player module
 	App->player->Enable();
+	App->audio->PlayMusic("../Game/honda.ogg");
 
-	// TODO 0: trigger background music
+	App->player->position.x = 100;
+	App->player->position.y = 100;
+
+	App->renderer->camera.x = App->renderer->camera.y = 0;
+
+
 
 	return true;
 }
@@ -73,10 +78,11 @@ update_status ModuleSceneHonda::Update()
 
 
 	// Draw everything --------------------------------------
-	//App->renderer->Blit(graphics, -150, 160, &ground);
-	//App->renderer->Blit(graphics, 0, 25, &background, 1.0f);
-	//App->renderer->Blit(graphics, 100, 145, &bath, 1.0f);
-	App->renderer->Blit(graphics,100, 0, &bath_water, 1.0f);
+	App->renderer->Blit(graphics, -150, 160, &ground);
+	App->renderer->Blit(graphics, 0, 25, &background);
+
+	App->renderer->Blit(graphics, 100, 125, &bath);
+	App->renderer->Blit(graphics, 100, 138, &(water.GetCurrentFrame()), 1.0f); // flag animation
 
 
 

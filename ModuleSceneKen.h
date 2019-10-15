@@ -28,8 +28,8 @@ public:
 	SDL_Rect ground;
 	SDL_Rect background;
 	SDL_Rect ship;
-	SDL_Rect girlpos;
-	Animation flag, girl;
+	SDL_Rect girlpos, man1pos, man2pos, man3pos, man4pos, man5pos;
+	Animation flag, girl, man1, man2, man3, man4, man5;
 };
 
 #endif // __MODULESCENEKEN_H__
